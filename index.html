@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            margin: 0;
+            background: linear-gradient(to right, #ff9966, #ff5e62);
+            color: #fff;
+        }
+        .container {
+            max-width: 450px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+        input, button, select {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input, select {
+            background: rgba(255, 255, 255, 0.8);
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .expense-list {
+            list-style: none;
+            padding: 0;
+        }
+        .expense-item {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .summary {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .warning {
+            font-size: 18px;
+            font-weight: bold;
+            color: yellow;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Expense Tracker</h2>
+        <input type="number" id="amount" placeholder="Amount">
+        <input type="text" id="category" placeholder="Category">
+        <select id="type">
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+        </select>
+        <button onclick="addTransaction()">Add Transaction</button>
+        <ul id="transaction-list" class="expense-list"></ul>
+        <div class="summary">
+            <p>Total Income: ₹<span id="total-income">0</span></p>
+            <p>Total Expense: ₹<span id="total-expense">0</span></p>
+            <p>Balance: ₹<span id="balance">0</span></p>
+            <p id="warning-message" class="warning"></p>
+        </div>
+    </div>
+    
+    <script>
+        let transactions = [];
+
+        function addTransaction() {
+            const amount = parseFloat(document.getElementById("amount").value);
+            const category = document.getElementById("category").value;
+            const type = document.getElementById("type").value;
+            if (amount && category) {
+                const transaction = { id: Date.now(), amount, category, type };
+                transactions.push(transaction);
+                renderTransactions();
+                document.getElementById("amount").value = "";
+                document.getElementById("category").value = "";
+            }
+        }
+
+        function deleteTransaction(id) {
+            transactions = transactions.filter(tran => tran.id !== id);
+            renderTransactions();
+        }
+
+        function renderTransactions() {
+            const transactionList = document.getElementById("transaction-list");
+            transactionList.innerHTML = "";
+            let totalIncome = 0;
+            let totalExpense = 0;
+            transactions.forEach(tran => {
+                const li = document.createElement("li");
+                li.className = "expense-item";
+                li.innerHTML = `${tran.category}: ₹${tran.amount} (${tran.type}) <button onclick="deleteTransaction(${tran.id})">Delete</button>`;
+                transactionList.appendChild(li);
+                if (tran.type === "income") {
+                    totalIncome += tran.amount;
+                } else {
+                    totalExpense += tran.amount;
+                }
+            });
+            const balance = totalIncome - totalExpense;
+            document.getElementById("total-income").textContent = totalIncome;
+            document.getElementById("total-expense").textContent = totalExpense;
+            document.getElementById("balance").textContent = balance;
+            const warningMessage = document.getElementById("warning-message");
+            if (balance < 0) {
+                warningMessage.textContent = "⚠️ Warning: You are in loss! Manage your expenses wisely.";
+            } else if (balance < 1000) {
+                warningMessage.textContent = "💰 Alert: Your balance is low. Try to save money.";
+            } else {
+                warningMessage.textContent = "✅ You are managing your finances well!";
+            }
+        }
+    </script>
+</body>
+</html>
+
+
