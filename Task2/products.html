@@ -1,0 +1,48 @@
+<!-- products.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEasy - Products</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>ShopEasy</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Shop</a></li>
+                <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>Our Products</h2>
+        <section class="products">
+            <div class="product">
+                <img src="images/headphones.jpg" alt="Wireless Headphones">
+                <h2>Wireless Headphones</h2>
+                <p>$50</p>
+                <a href="product-details.html?id=1" class="btn">View Details</a>
+                <button onclick="addToCart('Wireless Headphones', 50)" class="btn">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="images/watch.jpg" alt="Smart Watch">
+                <h2>Smart Watch</h2>
+                <p>$120</p>
+                <a href="product-details.html?id=2" class="btn">View Details</a>
+                <button onclick="addToCart('Smart Watch', 120)" class="btn">Add to Cart</button>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 ShopEasy. All Rights Reserved.</p>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>

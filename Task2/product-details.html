@@ -1,0 +1,59 @@
+<!-- product-details.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEasy - Product Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>ShopEasy</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Shop</a></li>
+                <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section id="product-detail" class="product-detail">
+            <!-- Product details will be loaded dynamically here -->
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 ShopEasy. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get("id");
+            
+            const products = {
+                1: { name: "Wireless Headphones", price: 50, img: "images/headphones.jpg", description: "High-quality sound with noise cancellation." },
+                2: { name: "Smart Watch", price: 120, img: "images/watch.jpg", description: "Feature-rich smartwatch with fitness tracking." }
+            };
+            
+            const product = products[productId];
+            if (product) {
+                document.getElementById("product-detail").innerHTML = `
+                    <img src="${product.img}" alt="${product.name}" />
+                    <h2>${product.name}</h2>
+                    <p>${product.description}</p>
+                    <p><strong>Price:</strong> $${product.price}</p>
+                    <button onclick="addToCart('${product.name}', ${product.price})" class="btn">Add to Cart</button>
+                `;
+            } else {
+                document.getElementById("product-detail").innerHTML = "<p>Product not found.</p>";
+            }
+        });
+    </script>
+    
+    <script src="script.js"></script>
+</body>
+</html>

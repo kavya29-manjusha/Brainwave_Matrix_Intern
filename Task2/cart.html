@@ -1,0 +1,60 @@
+<!-- cart.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEasy - Cart</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>ShopEasy</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Shop</a></li>
+                <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>Your Cart</h2>
+        <section id="cart-items" class="cart-items">
+            <p>Your cart is empty.</p>
+        </section>
+        <button onclick="clearCart()" class="btn">Clear Cart</button>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 ShopEasy. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        function loadCart() {
+            const cartSection = document.getElementById("cart-items");
+            const storedCart = localStorage.getItem("cart");
+            if (storedCart && JSON.parse(storedCart).length > 0) {
+                const cart = JSON.parse(storedCart);
+                cartSection.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <h3>${item.product}</h3>
+                        <p>Price: $${item.price}</p>
+                    </div>
+                `).join('');
+            } else {
+                cartSection.innerHTML = "<p>Your cart is empty.</p>";
+            }
+        }
+        
+        function clearCart() {
+            localStorage.removeItem("cart");
+            loadCart();
+            document.getElementById("cart-count").textContent = 0;
+        }
+        
+        document.addEventListener("DOMContentLoaded", loadCart);
+    </script>
+</body>
+</html>
